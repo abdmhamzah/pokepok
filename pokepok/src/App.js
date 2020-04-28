@@ -1,79 +1,44 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PokemonListCard from './components/PokemonListCard'
 import FormPokemon from './components/FormPokemon'
 import NavBar from './components/NavBar'
-const apiURL = 'https://api.pokemontcg.io/v1/cards'
 
-class App extends Component {
 
-  constructor(){
-    super()
-    this.state = {
-      pokemons: [],
-      inputSearchPokemon: 'default',
-    }
-  }
+function App() {
+  const apiURL = 'https://api.pokemontcg.io/v1/cards'
+  const [pokemons, setPokemons] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  componentWillMount(){
-    // console.log('---------- Will Mount')
-  }
-
-  componentDidMount(){
-    // console.log('---------- Did Mount')
+  useEffect(() => {
     fetch(apiURL)
       .then(res => res.json())
-      .then(data => {
-        this.setState({
-          pokemons: data.cards
-        })
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }
+      .then(data => setPokemons(data.cards))
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+  }, [])
 
-  handleInput = (e) => {
-    console.log(e.target.value) 
-    this.setState({
-      inputSearchPokemon: e.target.value,
-    })
-  }
-
-  findPokemon = () => {
-    const { inputSearchPokemon } = this.state
-    console.log('input search', inputSearchPokemon);
-
-    fetch(`${apiURL}?name=${inputSearchPokemon}`)
+  const findPokemon = (searchedPokemon) => {
+    fetch(`${apiURL}?name=${searchedPokemon}`)
       .then(res => res.json())
-      .then(data => {
-        console.log(data.cards)
-        this.setState({
-          pokemons: data.cards
-        })
-      })
-      .catch(err => {
-        console.log(err)
-      })
+      .then(data => setPokemons(data.cards))
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
   }
 
-  render (){
-    // console.log('---------- Render')
-    return (
-      <>
-        <NavBar/>
-        <FormPokemon 
-          handleInput={ this.handleInput }
-          findPokemon={ this.findPokemon }
-        />
-        {this.state.inputSearchPokemon}
-        <hr/>
-        <PokemonListCard 
-          pokemons = { this.state.pokemons }
-        />
-      </>
-    )
+  if (loading) {
+    return <p>Loading...</p>
   }
+
+  return (
+    <>
+      <NavBar/>
+      <FormPokemon findPokemon={ (input) => findPokemon(input) }/>
+      <hr/>
+      <PokemonListCard pokemons={ pokemons }/>
+    </>
+  )
 }
 
 export default App;

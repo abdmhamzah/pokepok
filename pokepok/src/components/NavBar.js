@@ -1,17 +1,15 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Navbar } from 'react-bootstrap'
 
 
-class NavBar extends Component {
-  render() {
-    return (
-      <>
-        <Navbar expand="lg" variant="light" bg="light">
-          <Navbar.Brand href="#">Navbar</Navbar.Brand>
-        </Navbar>
-      </>
-    )
-  }
+function NavBar(){
+  return (
+    <>
+      <Navbar expand="lg" variant="light" bg="light">
+        <Navbar.Brand href="#">POKEPOK</Navbar.Brand>
+      </Navbar>
+    </>
+  )
 }
 
 export default NavBar
