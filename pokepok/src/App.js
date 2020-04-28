@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PokemonListCard from './components/PokemonListCard'
 import FormPokemon from './components/FormPokemon'
+import NavBar from './components/NavBar'
 const apiURL = 'https://api.pokemontcg.io/v1/cards'
 
 class App extends Component {
@@ -14,51 +15,63 @@ class App extends Component {
     }
   }
 
+  componentWillMount(){
+    // console.log('---------- Will Mount')
+  }
+
+  componentDidMount(){
+    // console.log('---------- Did Mount')
+    fetch(apiURL)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          pokemons: data.cards
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   handleInput = (e) => {
-    // console.log(e.target.value) 
+    console.log(e.target.value) 
     this.setState({
       inputSearchPokemon: e.target.value,
     })
   }
 
-  addPokemon = () => {
-    const { pokemons, inputSearchPokemon } = this.state
-    // console.log('input search', inputSearchPokemon);
-    this.setState({
-      pokemons: [...pokemons, inputSearchPokemon]
-    })
-  }
+  findPokemon = () => {
+    const { inputSearchPokemon } = this.state
+    console.log('input search', inputSearchPokemon);
 
-  componentWillMount(){
-    console.log('---------- Will Mount')
-  }
-
-  componentDidMount(){
-    console.log('---------- Did Mount')
-    fetch(apiURL)
-      .then( resp => resp.json() )
-      .then( data => {
+    fetch(`${apiURL}?name=${inputSearchPokemon}`)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data.cards)
         this.setState({
           pokemons: data.cards
         })
       })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   render (){
-    console.log('---------- Render')
+    // console.log('---------- Render')
     return (
-      <div>
+      <>
+        <NavBar/>
         <FormPokemon 
           handleInput={ this.handleInput }
-          addPokemon={ this.addPokemon }
+          findPokemon={ this.findPokemon }
         />
         {this.state.inputSearchPokemon}
         <hr/>
-        <h1>Pokemon Cards</h1>
         <PokemonListCard 
           pokemons = { this.state.pokemons }
         />
-      </div>
+      </>
     )
   }
 }
