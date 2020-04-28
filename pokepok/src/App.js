@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
-import PokemonCard from './components/PokemonCard'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import PokemonListCard from './components/PokemonListCard'
 import FormPokemon from './components/FormPokemon'
+const apiURL = 'https://api.pokemontcg.io/v1/cards'
 
 class App extends Component {
 
   constructor(){
     super()
     this.state = {
-      pokemons: ['Bulbasaur', 'Charlizard', 'Pikachu'],
-      inputSearchPokemon: 'default'
+      pokemons: [],
+      inputSearchPokemon: 'default',
     }
   }
 
-  findPokemon = (e) => {
+  handleInput = (e) => {
     // console.log(e.target.value) 
     this.setState({
       inputSearchPokemon: e.target.value,
@@ -27,19 +29,33 @@ class App extends Component {
     })
   }
 
+  componentWillMount(){
+    console.log('---------- Will Mount')
+  }
+
+  componentDidMount(){
+    console.log('---------- Did Mount')
+    fetch(apiURL)
+      .then( resp => resp.json() )
+      .then( data => {
+        this.setState({
+          pokemons: data.cards
+        })
+      })
+  }
+
   render (){
+    console.log('---------- Render')
     return (
       <div>
         <FormPokemon 
-          findPokemon={ this.findPokemon }
+          handleInput={ this.handleInput }
           addPokemon={ this.addPokemon }
         />
         {this.state.inputSearchPokemon}
         <hr/>
-
-        <h1>List Pokemon</h1>
-        <PokemonCard 
-          text="testing"
+        <h1>Pokemon Cards</h1>
+        <PokemonListCard 
           pokemons = { this.state.pokemons }
         />
       </div>

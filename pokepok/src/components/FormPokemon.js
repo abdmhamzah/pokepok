@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-class FormPokemon extends React.Component {
+class FormPokemon extends Component {
   render() {
     return (
       <>
