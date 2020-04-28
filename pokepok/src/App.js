@@ -20,6 +20,7 @@ function App() {
   }, [])
 
   const findPokemon = (searchedPokemon) => {
+    setLoading(true)
     fetch(`${apiURL}?name=${searchedPokemon}`)
       .then(res => res.json())
       .then(data => setPokemons(data.cards))
@@ -29,6 +30,10 @@ function App() {
 
   if (loading) {
     return <p>Loading...</p>
+  }
+
+  if (error) {
+    return <p>Error Loading Page</p>
   }
 
   return (
