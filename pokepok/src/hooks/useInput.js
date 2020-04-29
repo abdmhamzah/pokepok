@@ -8,8 +8,8 @@ export default (initialValue) => {
         onChange: (e) => {
             setData(e.target.value)
         },
-        // onReset: (e) => {
-        //     setData('')
-        // }
+        onReset: (e) => {
+            setData('')
+        }
     }
 }
