@@ -16,6 +16,7 @@ function PokemonListCard(props){
                   <Image 
                     src={ pokemon.imageUrl }
                     fluid
+                    className="card"
                     // onClick={}
                   />
                 </Col>

@@ -13,5 +13,12 @@ export default (url) => {
       .finally(() => setLoading(false))
   }, [url])
 
-  return [data, loading, error]
+  return [data, loading, error, (searchedPokemon) => {
+      setLoading(true)
+      fetch(`${url}?name=${searchedPokemon}`)
+        .then(res => res.json())
+        .then(data => setData(data.cards))
+        .catch(err => setError(err))
+        .finally(() => setLoading(false))
+  }]
 }
