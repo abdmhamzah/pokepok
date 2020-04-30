@@ -3,46 +3,40 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import PokemonListCard from '../components/PokemonListCard'
 import FormPokemon from '../components/FormPokemon'
-import CardDetail from '../components/CardDetail'
+import Loading from '../components/Loading'
 
-// import useFetch from '../hooks/useFetch';
+import { getCardList, searchPokemon } from '../store/actions/actionCardList'
 
 export default () => {
-  const apiURL = 'https://api.pokemontcg.io/v1/cards'
-  // const [pokemons, loading, error, reFetch] = useFetch(apiURL)
-
+  const { pokemons, loading, error } = useSelector(state => state.reducerCardList)
   const dispatch = useDispatch()
-  const { pokemons } = useSelector(state => state.reducerCardList) 
-
-  // console.log(pokemons)
 
   useEffect(() => {
-    fetch(apiURL)
-      .then(res => res.json())
-      .then(data => {
-        dispatch({ type: 'SET_POKEMONS', payload: data.cards })
-      })
-      .catch(err => console.log(err))
+    dispatch(getCardList())
   }, [dispatch])
 
   function reFetch(input){
-    fetch(`${apiURL}?name=${input}`)
-      .then(res => res.json())
-      .then(data => {
-        dispatch({ type: 'SET_SEARCH_POKEMONS', payload: data.cards })
-      })
-      .catch(err => console.log(err))
+    dispatch(searchPokemon(input))
   }
 
   return (
     <>
-      <FormPokemon findPokemon={(input) => reFetch(input)}/>
-      <hr/>
-      {/* {loading && <p>Loading...</p>}
-      {error && <p>Error Loading Page</p>} */}
-      {/* {!loading && !error && <PokemonListCard pokemons={ pokemons }/>} */}
-      <CardDetail />
-      <PokemonListCard pokemons={ pokemons }/>
+      {error && (
+        <div class="alert alert-danger" role="alert"> 
+          { error }
+        </div>)
+      }
+      {!loading &&
+        <>
+          <FormPokemon findPokemon={ (input) => reFetch(input) }/>
+          <hr/>
+          <div className="d-flex justify-content-md-center my-2">
+            <h2>Pokemon Cards</h2>
+          </div>
+          <PokemonListCard pokemons={ pokemons }/>
+        </>
+      }
+      {loading && <Loading/>}
     </>
   )
 }

@@ -1,14 +1,13 @@
 import React from 'react'
 import { Container, Col, Row, Image } from 'react-bootstrap'
-
+import { useHistory } from 'react-router-dom'
 
 function PokemonListCard(props){
+  const history = useHistory()
+
   return (
     <>
       <Container>
-          <div className="d-flex justify-content-md-center my-2">
-            <h2>Pokemon Cards</h2>
-          </div>
           <Row>
             {props.pokemons.map(pokemon => {
               return (
@@ -17,7 +16,7 @@ function PokemonListCard(props){
                     src={ pokemon.imageUrl }
                     fluid
                     className="card"
-                    // onClick={}
+                    onClick={ () => history.push(`/pokemons/${pokemon.id}`) }
                   />
                 </Col>
               )

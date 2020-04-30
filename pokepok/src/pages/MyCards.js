@@ -1,31 +1,37 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Container, Col, Row, Image } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
+
+import PokemonListCard from '../components/PokemonListCard'
+
+import { Button } from 'react-bootstrap'
 
 export default () => {
+  const history = useHistory()
   const { myCards } = useSelector(state => state.reducerMyCard)
+
   return (
     <>
-      <hr/>
-      <Container>
+      {myCards.length === 0 && 
+        <>
+          <div className="empty-detail">
+            <div className="d-flex justify-content-md-center my-2">
+              <h2>Oops.. it seems Empty</h2>
+            </div>
+            <div className="d-flex justify-content-md-center my-2">
+              <Button onClick={ () => history.push(`/`) } variant="success" >Get My Card</Button>
+            </div>
+          </div>
+        </>
+      }
+      {myCards.length !== 0 && 
+        <>
           <div className="d-flex justify-content-md-center my-2">
             <h2>My Cards</h2>
           </div>
-          <Row>
-            {myCards.map(card => {
-              return (
-                <Col key={ card.id } sm={4} md={3} lg={3} className="my-2">
-                  <Image 
-                    src={ card.imageUrl }
-                    fluid
-                    className="card"
-                    // onClick={}
-                  />
-                </Col>
-              )
-            })}
-          </Row>
-      </Container>
+          <PokemonListCard pokemons={ myCards }/>
+        </>
+      }
     </>
   )
 }

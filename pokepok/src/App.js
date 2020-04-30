@@ -12,7 +12,8 @@ import {
 
 import {
   Home,
-  MyCard
+  MyCard,
+  CardDetail
 } from './pages'
 
 function App() {
@@ -25,6 +26,9 @@ function App() {
         </Route>
         <Route path="/my-cards">
           <MyCard/>
+        </Route>
+        <Route exact path="/pokemons/:id">
+          <CardDetail/>
         </Route>
         <Route path="*">
           <Redirect to="/"/>
