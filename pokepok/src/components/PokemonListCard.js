@@ -7,7 +7,7 @@ function PokemonListCard(props){
 
   return (
     <>
-      <Container>
+      <Container data-testid="homepage-listcards">
           <Row>
             {props.pokemons.map(pokemon => {
               return (
@@ -17,6 +17,7 @@ function PokemonListCard(props){
                     fluid
                     className="card"
                     onClick={ () => history.push(`/pokemons/${pokemon.id}`) }
+                    data-testid="to-detail-card"
                   />
                 </Col>
               )

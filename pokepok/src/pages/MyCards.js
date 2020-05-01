@@ -14,7 +14,7 @@ export default () => {
     <>
       {myCards.length === 0 && 
         <>
-          <div className="empty-detail">
+          <div data-testid="list-mycard" className="empty-detail">
             <div className="d-flex justify-content-md-center my-2">
               <h2>Oops.. it seems Empty</h2>
             </div>
@@ -26,10 +26,12 @@ export default () => {
       }
       {myCards.length !== 0 && 
         <>
-          <div className="d-flex justify-content-md-center my-2">
-            <h2>My Cards</h2>
+          <div data-testid="list-mycard">
+            <div className="d-flex justify-content-md-center my-2">
+              <h2>My Cards</h2>
+            </div>
+            <PokemonListCard pokemons={ myCards }/>
           </div>
-          <PokemonListCard pokemons={ myCards }/>
         </>
       }
     </>

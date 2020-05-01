@@ -32,7 +32,7 @@ function CardDetail(){
     <>
       {!loading && 
         <>
-          <Container className="d-flex justify-content-md-center my-4">
+          <Container data-testid="detail-card" className="d-flex justify-content-md-center my-4">
             <Row>
               <Col>
                 <Figure>

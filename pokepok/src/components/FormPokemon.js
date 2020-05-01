@@ -8,7 +8,7 @@ function FormPokemon(props) {
   const { data, onChange } = useInput('Enter Mewtwo or Another Pokemon Name')
   return (
     <>
-      <Container className="d-flex justify-content-md-center my-4">
+      <Container data-testid="homepage-searchform" className="d-flex justify-content-md-center my-4">
         <input 
           onChange={ onChange } placeholder={ data }
           type="text" className="form-control"

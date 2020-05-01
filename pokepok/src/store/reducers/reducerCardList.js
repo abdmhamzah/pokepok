@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
     case 'SET_LOADING' :
       return { ...state, loading: action.payload }
     case 'SET_ERROR' :
-      return { ...state, error: action.payload, loading: false }
+      return { ...state, error: action.payload }
     default:
       return state
   }
